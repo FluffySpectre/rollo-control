@@ -1,0 +1,71 @@
+[Funktionen]
+
+ - Rollo öffnen
+ - Rollo schließen
+ - Rollo stop
+
+[Zu speichernde Daten]
+
+ - Startzeit der letzten Aktion (Unix Timestamp in Millis)
+ - Stopzeit der letzten Aktion  (Unix Timestamp in Millis)
+ - Aktueller Status des Rollos
+  - 0 = Gestoppt
+  - 1 = Öffnet
+  - 2 = Schließt
+
+[Infos zum Rollo]
+
+Dauer von ganz hoch zu ganz runter: 41s
+Dauer von ganz runter zu ganz hoch: 41s
+
+[Szenarios]
+
+Szenario 1:
+    Rollo ist komplett geschlossen und wird komplett geöffnet.
+
+    Aktionen:
+    
+    Button für "Öffnen" wird gedrückt.
+    In der Datenbank wird der Status "Öffnet (1)" eingetragen.
+    In der Datenbank wird die Startzeit (Millis) eingetragen.
+    In der Datenbank wird die Stopzeit auf 0 gesetzt.
+    Befehl "Öffnen" wird ausgeführt.
+
+Szenario 2:
+    Rollo ist komplett geöffnet und wird komplett geschlossen.
+    
+    Aktionen:
+    
+    Button für "Schließen" wird gedrückt.
+    In der Datenbank wird der Status "Schließt (2)" eingetragen.
+    In der Datenbank wird die Startzeit (Millis) eingetragen.
+    In der Datenbank wird die Stopzeit auf 0 gesetzt.
+    Befehl "Schließen" wird ausgeführt.
+
+Szenario 3:
+    Rollo wird gerade geöffnet/geschlossen und währenddessen gestoppt.
+    
+    Aktionen:
+    
+    Button für "Stop" wird gedrückt.
+    In der Datenbank wird der Status "Gestoppt (0)" eingetragen.
+    In der Datenbank wird die Stopzeit (Millis) eingetragen.
+    Befehl "Stop" wird ausgeführt.
+
+
+
+[Client]
+
+    Aktionen: 
+
+    Button wird gedrückt.
+    Befehl wird per Ajax an Server gesendet.
+    Wenn der Ajax-Call abgeschlossen ist, wird der Timer gestartet.
+    Der Timer läuft im Sekundentakt.
+    Rollo-Status (Prozentsatz hoch/runter) wird mit Timer aktualisiert.
+    
+    Wenn der Timer > 41 Sekunden ist (Rollo ist geöffnet/geschlossen), Timer abbrechen.
+    Wenn der Button "Stop" gedrückt wurde, Timer abbrechen.
+
+    
+   
