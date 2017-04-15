@@ -66,14 +66,17 @@
         if (isset($_GET["up"])) {
             rolloUp();
             echo "<p>Rollo wird geöffnet!</p>";
+            sendMail("Rollo wird geöffnet!", "");
         }
         else if (isset($_GET["down"])) {
             rolloDown();
             echo "<p>Rollo wird geschlossen!</p>";
+            sendMail("Rollo wird geschlossen!", "");
         }
         else if (isset($_GET["stop"])) {
             rolloStop();
             echo "<p>Rollo gestoppt!</p>";
+            sendMail("Rollo gestoppt!", "");
         }
 		
         // control functions
@@ -123,6 +126,23 @@
             return mysqli_connect("127.0.0.1", "root", "raspberry", "rollo");
         }
         
+        function sendMail($subject, $msg) {
+            require_once "lib/swift-mailer/swift_required.php";
+
+            $transport = Swift_SmtpTransport::newInstance("smtp.gmail.com", 465, "ssl")
+            ->setUsername("b.bosse1991@gmail.com")
+            ->setPassword("t!ct@cto3");
+
+            $mailer = Swift_Mailer::newInstance($transport);
+
+            $message = Swift_Message::newInstance($subject)
+            ->setFrom(array('status@rollo.de' => 'Rollo status'))
+            ->setTo(array("b.bosse1991@gmail.com"))
+            ->setBody($msg);
+
+            $result = $mailer->send($message);
+        }
+
         ?>
         
 		<!--<h2>Nutzer 'Malte' hat leider keinen Zugriff auf diese Funktion! <br><br>MUHAHAHAHA!</h2>-->
