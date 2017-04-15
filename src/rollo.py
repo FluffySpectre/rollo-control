@@ -1,6 +1,6 @@
 import time
 from datetime import datetime
-import RPi.GPIO as GPIO
+import urllib2
 
 # timer configuration
 # weekdays and their open and shut times
@@ -15,45 +15,18 @@ week = [
     ["09:00", "20:00"]  # SUN
 ]
 
-# pin configuration
-upPin = 3
-downPin = 5
-stopPin = 7
-
-# setup
-def setup():
-    GPIO.setmode(GPIO.BOARD)
-
-    GPIO.setup(upPin, GPIO.OUT)
-    GPIO.setup(downPin, GPIO.OUT)
-    GPIO.setup(stopPin, GPIO.OUT)
-
-def reset():
-    GPIO.output(upPin, GPIO.HIGH)
-    GPIO.output(downPin, GPIO.HIGH)
-    GPIO.output(stopPin, GPIO.HIGH)
-
 # rollo control functions
 def shutRollo():
-    global downPin
-    #reset()
-    GPIO.output(downPin, GPIO.LOW)
+    urllib2.urlopen("http://localhost/rollo.php?down=#").read()
 
 def openRollo():
-    global upPin
-    #reset()
-    GPIO.output(upPin, GPIO.LOW)
+    urllib2.urlopen("http://localhost/rollo.php?up=#").read()
 
 def stopRollo():
-    global stopPin
-    #reset()
-    GPIO.output(stopPin, GPIO.LOW)
+    urllib2.urlopen("http://localhost/rollo.php?stop=#").read()
 
 opens = False
 shuts = False
-
-setup()
-reset()
 
 while 1:
     now = datetime.now()
@@ -79,5 +52,3 @@ while 1:
         print "[" + now.strftime("%d.%m.%Y %H:%M:%S") + "] Rollo closed!"
     
     time.sleep(1)
-
-GPIO.cleanup()
