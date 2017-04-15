@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Rollo Control</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script src="lib/jquery-notify/notify.js"></script>
+
+    <style>
+        .shut-button {
+            padding: 0;
+            height: 23vh;
+            font-size: 10vh;
+            margin: 0;
+            margin-bottom: 2vh;
+        }
+        
+        .shut-button img {
+            width: 22vh;
+            height: 22vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div data-role="page">
+        <div data-role="header" data-position="fixed">
+            <h1>Rollo Control 2.0</h1>
+        </div>
+
+        <div role="main" class="ui-content">
+            <div data-role="tabs" id="tabs">
+                <div data-role="navbar">
+                    <ul>
+                        <li><a id="tabOne" href="#one" data-ajax="false">Manuell</a></li>
+                        <li><a href="#two" data-ajax="false">Positionen</a></li>
+                    </ul>
+                </div>
+
+                <div id="one" class="ui-body-d ui-content">
+                    <button class="shut-button" onclick="onUpClick()">&#9650;</button>
+                    <button class="shut-button" onclick="onStopClick()">&#9609;</button>
+                    <button class="shut-button" onclick="onDownClick()">&#9660;</button>
+                </div>
+
+                <div id="two" class="ui-body-d ui-content">
+                    <button id="btnShut1" class="shut-button" onclick="onShutClick(0)"><img src="images/state_1.png"></button>
+                    <button id="btnShut2" class="shut-button" onclick="onShutClick(1)"><img src="images/state_2.png"></button>
+                    <button id="btnShut3" class="shut-button" onclick="onShutClick(2)"><img src="images/state_3.png"></button>
+                </div>
+            </div>
+        </div>
+
+        <div data-role="footer" data-position="fixed">
+            <h4>created by Björn Bosse (2016-17)</h4>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+
+</html>
