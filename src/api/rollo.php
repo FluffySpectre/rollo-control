@@ -36,6 +36,46 @@
                 width: 100%;
                 text-align: center;
             }
+
+            #shutterContainer {
+                width: 2em;
+                height: 6em;
+                margin-top: 1em;
+            }
+
+            #btnShut1 {
+                border: none;
+                border-radius: 0;
+                background-image: url("images/state_1.png");
+                background-size: 2em 2em;
+                background-repeat: no-repeat;
+                width: 2em;
+                height: 2em;
+            }
+
+            #btnShut2 {
+                border: none;
+                border-radius: 0;
+                background-image: url("images/state_2.png");
+                background-size: 2em 2em;
+                background-repeat: no-repeat;
+                width: 2em;
+                height: 2em;
+            }
+
+            #btnShut3 {
+                border: none;
+                border-radius: 0;
+                background-image: url("images/state_3.png");
+                background-size: 2em 2em;
+                background-repeat: no-repeat;
+                width: 2em;
+                height: 2em;
+            }
+
+            .spinner {
+                background-image: url("https://d13yacurqjgara.cloudfront.net/users/82092/screenshots/1073359/spinner.gif");
+            }
         </style>
     </head>
     <body>
@@ -46,7 +86,8 @@
         
         // needed time for transition:
         // Full open <-> full closed: 41s
-        
+        $transitionTime = 42000000; // in microseconds
+
         // TODO: read state from the database
         // state can be: 
         // 0 = closed
@@ -60,8 +101,6 @@
         $upPort = 8;
         $downPort = 9;
         $stopPort = 7;
-        
-        initPorts();
         
         if (isset($_GET["up"])) {
             rolloUp();
@@ -77,6 +116,26 @@
             rolloStop();
             echo "<p>Rollo gestoppt!</p>";
             sendMail("Rollo gestoppt!", "");
+        }
+        else if (isset($_GET["position"])) {
+            $position = floatval($_GET["position"]);
+
+            // move all the way up
+            rolloUp();
+
+            // wait the maximum time to travel between closed and open state
+            usleep($transitionTime);
+
+            rolloDown();
+
+            // wait the time the rollo needs to travel to the target position
+            usleep($position * $transitionTime);
+
+            rolloStop();
+
+            // send status email
+            echo "<p>Rollo zu Position gefahren!</p>";
+            sendMail("Rollo zu Position gefahren!", "");
         }
 		
         // control functions
@@ -95,14 +154,17 @@
         }
         
         function rolloUp() {
+            initPorts();
             global $upPort;
             shell_exec("gpio write $upPort 0");
         }
         function rolloDown() {
+            initPorts();
             global $downPort;
             shell_exec("gpio write $downPort 0");
         }
         function rolloStop() {
+            initPorts();
             global $stopPort;
             shell_exec("gpio write $stopPort 0");
         }
@@ -118,7 +180,7 @@
         
         function setConfig($status, $stopTime) {
             global $db;
-            
+
             $db->query("UPDATE config SET status=$status, stop_time=$stopTime;");
         }
         
@@ -148,13 +210,26 @@
 		<!--<h2>Nutzer 'Malte' hat leider keinen Zugriff auf diese Funktion! <br><br>MUHAHAHAHA!</h2>-->
 		
         <div id="buttonContainer">
-            
             <form method="get" action="#">
                 <button type="submit" name="up">&#9650;</button><br>
                 <button type="submit" name="stop">&#9609;</button><br>
                 <button type="submit" name="down">&#9660;</button> 
             </form>
-            
+
+            <div id="shutterContainer">
+                <form method="get" action="#">
+                    <input type="hidden" name="position" value="0.33" /> 
+                    <button type="submit" id="btnShut1" onclick="onShutClick(1)"></button>
+                </form>
+                <form method="get" action="#">
+                    <input type="hidden" name="position" value="0.5" /> 
+                    <button type="submit" id="btnShut2" onclick="onShutClick(2)"></button>
+                </form>
+                <form method="get" action="#">
+                    <input type="hidden" name="position" value="0.66" /> 
+                    <button type="submit" id="btnShut3" onclick="onShutClick(3)"></button>
+                </form>
+            </div>
         </div>
     </body>
 </html>
