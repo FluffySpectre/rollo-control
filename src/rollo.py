@@ -1,55 +1,81 @@
 import time
 from datetime import datetime
 import RPi.GPIO as GPIO
-from sys import exit
 
-# rollo control functions
-def shutRollo():
-    global downPin
-    GPIO.output(downPin, GPIO.LOW)
+# timer configuration
+# weekdays and their open and shut times
+week = [
+    ["07:00", "20:00"], 
+    ["07:00", "20:00"], 
+    ["07:00", "20:00"],
+    ["07:00", "20:00"],
+    ["07:00", "20:00"],
+    ["09:00", "20:00"],
+    ["09:00", "20:00"]
+]
 
-def openRollo():
-    global upPin
-    GPIO.output(upPin, GPIO.LOW)
-
-def stopRollo():
-    global stopPin
-    GPIO.output(stopPin, GPIO.LOW)
-
-
+# pin configuration
 upPin = 3
 downPin = 5
 stopPin = 7
 
-GPIO.setmode(GPIO.BOARD)
+# setup
+def setup():
+    GPIO.setmode(GPIO.BOARD)
 
-GPIO.setup(upPin, GPIO.OUT)
-GPIO.setup(downPin, GPIO.OUT)
-GPIO.setup(stopPin, GPIO.OUT)
+    GPIO.setup(upPin, GPIO.OUT)
+    GPIO.setup(downPin, GPIO.OUT)
+    GPIO.setup(stopPin, GPIO.OUT)
 
-GPIO.output(upPin, GPIO.HIGH)
-GPIO.output(downPin, GPIO.HIGH)
-GPIO.output(stopPin, GPIO.HIGH)
+def reset():
+    GPIO.output(upPin, GPIO.HIGH)
+    GPIO.output(downPin, GPIO.HIGH)
+    GPIO.output(stopPin, GPIO.HIGH)
 
-upTime = datetime.strptime("09:00", "%H:%M")
-shutTime = datetime.strptime("20:00", "%H:%M")
+# rollo control functions
+def shutRollo():
+    global downPin
+    #reset()
+    GPIO.output(downPin, GPIO.LOW)
+
+def openRollo():
+    global upPin
+    #reset()
+    GPIO.output(upPin, GPIO.LOW)
+
+def stopRollo():
+    global stopPin
+    #reset()
+    GPIO.output(stopPin, GPIO.LOW)
+
 opens = False
 shuts = False
+
+setup()
+reset()
 
 while 1:
     now = datetime.now()
 
+    # get open/shut times of the current weekday
+    weekday = now.weekday()
+    openShut = week[weekday]
+    upTime = datetime.strptime(openShut[0], "%H:%M")
+    shutTime = datetime.strptime(openShut[1], "%H:%M")
+
+    # if the rollo is not already open, check if we reached the open time
     if (opens == False and now.hour == upTime.hour and now.minute == upTime.minute):
         openRollo()
         opens = True
         shuts = False
-        print "[" + now + "] Rollo opened!"
+        print "[" + now.strftime("%d.%m.%Y %H:%M:%S") + "] Rollo opened!"
     
+    # if the rollo is not already shut, check if we reached the shut time
     if (shuts == False and now.hour == shutTime.hour and now.minute == shutTime.minute):
         shutRollo()
         shuts = True
         opens = False
-        print "[" + now + "] Rollo closed!"
+        print "[" + now.strftime("%d.%m.%Y %H:%M:%S") + "] Rollo closed!"
     
     time.sleep(1)
 
