@@ -25,6 +25,31 @@ def openRollo():
 def stopRollo():
     urllib2.urlopen("http://localhost/rollo.php?stop=#").read()
 
+# email
+def sendEmail(recipient, subject, body):
+    import smtplib
+
+    gmail_user = "b.bosse1991@gmail.com"
+    gmail_pwd = "t!ct@cto3"
+    FROM = "Rollo-Control"
+    TO = recipient
+    SUBJECT = subject
+    TEXT = body
+
+    # prepare actual message
+    message = """From: %s\nTo: %s\nSubject: %s\n\n%s
+    """ % (FROM, ", ".join(TO), SUBJECT, TEXT)
+    try:
+        server = smtplib.SMTP("smtp.gmail.com", 587)
+        server.ehlo()
+        server.starttls()
+        server.login(gmail_user, gmail_pwd)
+        server.sendmail(FROM, TO, message)
+        server.close()
+        print "successfully sent the mail"
+    except:
+        print "failed to send mail"
+
 opens = False
 shuts = False
 
@@ -42,13 +67,19 @@ while 1:
         openRollo()
         opens = True
         shuts = False
-        print "[" + now.strftime("%d.%m.%Y %H:%M:%S") + "] Rollo opened!"
+
+        msg = "[" + now.strftime("%d.%m.%Y %H:%M:%S") + "] Rollo opened!"
+        print msg
+        sendEmail("b.bosse1991@gmail.com", "Rollo opened!", "")
     
     # if the rollo is not already shut, check if we reached the shut time
     if (shuts == False and now.hour == shutTime.hour and now.minute == shutTime.minute):
         shutRollo()
         shuts = True
         opens = False
-        print "[" + now.strftime("%d.%m.%Y %H:%M:%S") + "] Rollo closed!"
+
+        msg = "[" + now.strftime("%d.%m.%Y %H:%M:%S") + "] Rollo closed!"
+        print msg
+        sendEmail("b.bosse1991@gmail.com", "Rollo shut!", "")
     
     time.sleep(1)
