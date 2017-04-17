@@ -1,7 +1,12 @@
 var rolloPositions = [0.33, 0.5, 0.66];
+var rolloAnimationPositions = ['-66%', '-50%', '-33%'];
+var rolloPosition = 0;
 
 $(document).on("pagecreate", function() {
-    $('#tabOne').click();
+    //$('#tabOne').click();
+    $('#tabFour').click();
+
+    $("#rollo").animate({ top: '-100%' }, 42000);
 });
 
 function onUpClick() {
@@ -35,4 +40,16 @@ function onShutClick(index) {
     $.get('api/rollo.php?position=' + rolloPos, function(data) {
         $.notifyBar({ cssClass: 'success', html: 'Rollo ist in Position!' });
     });
+}
+
+function getRolloPosition() {
+    $.ajax('api/rollo.php?get_position=1', function(data) {
+        if (data.position) {
+            rolloPosition = data.position;
+        }
+    });
+}
+
+function updateRolloAnimationPosition() {
+    // TODO
 }
