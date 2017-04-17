@@ -20,17 +20,22 @@ $stopPort = 7;
 
 if (isset($_GET["up"])) {
     rolloUp();
-    sendMail("Rollo wird geöffnet!", "");
+
+    writeLogEntry("Rollo wurde geöffnet!");
+
+    //sendMail("Rollo wird geöffnet!", "");
     die(json_encode(array("success" => true)));
 }
 else if (isset($_GET["down"])) {
     rolloDown();
-    sendMail("Rollo wird geschlossen!", "");
+    //sendMail("Rollo wird geschlossen!", "");
+    writeLogEntry("Rollo wurde geschlossen!");
     die(json_encode(array("success" => true)));
 }
 else if (isset($_GET["stop"])) {
     rolloStop();
-    sendMail("Rollo gestoppt!", "");
+    //sendMail("Rollo gestoppt!", "");
+    writeLogEntry("Rollo wurde gestoppt!");
     die(json_encode(array("success" => true)));
 }
 else if (isset($_GET["position"])) {
@@ -50,7 +55,8 @@ else if (isset($_GET["position"])) {
     rolloStop();
 
     // send status email
-    sendMail("Rollo zu Position gefahren!", "");
+    //sendMail("Rollo zu Position gefahren!", "");
+    writeLogEntry("Rollo wurde zu Position gefahren: " . $position);
 
     die(json_encode(array("success" => true)));
 }
@@ -86,19 +92,11 @@ function rolloStop() {
     shell_exec("gpio write $stopPort 0");
 }
 
-function sendMail($subject, $msg) {
-    require_once "lib/swift-mailer/swift_required.php";
-
-    $transport = Swift_SmtpTransport::newInstance("smtp.gmail.com", 465, "ssl")
-    ->setUsername("b.bosse1991@gmail.com")
-    ->setPassword("t!ct@cto3");
-
-    $mailer = Swift_Mailer::newInstance($transport);
-
-    $message = Swift_Message::newInstance($subject)
-    ->setFrom(array('status@rollo.de' => 'Rollo status'))
-    ->setTo(array("b.bosse1991@gmail.com"))
-    ->setBody($msg);
-
-    $result = $mailer->send($message);
+function writeLogEntry($msg) {
+    $todayLogFile = "logs/log_" . date("Y-m-d") . ".txt";
+    $file = fopen($todayLogFile, "a");
+    if ($file) {
+        fwrite($file, "[" . date("H:i:s") . "] " . $msg . "\n");
+        fclose($file);
+    }
 }

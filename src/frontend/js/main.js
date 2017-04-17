@@ -7,7 +7,7 @@ $(document).on("pagecreate", function() {
 function onUpClick() {
     $.notifyBar({ cssClass: 'warning', html: 'Vorgang läuft...', delay: 999999 });
 
-    $.get('rollo.php?up=1', function(data) {
+    $.get('api/rollo.php?up=1', function(data) {
         $.notifyBar({ cssClass: 'success', html: 'Rollo wird geöffnet!' });
     });
 }
@@ -15,7 +15,7 @@ function onUpClick() {
 function onStopClick() {
     $.notifyBar({ cssClass: 'warning', html: 'Vorgang läuft...', delay: 999999 });
 
-    $.get('rollo.php?stop=1', function(data) {
+    $.get('api/rollo.php?stop=1', function(data) {
         $.notifyBar({ cssClass: 'success', html: 'Rollo wurde gestoppt!' });
     });
 }
@@ -23,7 +23,7 @@ function onStopClick() {
 function onDownClick() {
     $.notifyBar({ cssClass: 'warning', html: 'Vorgang läuft...', delay: 999999 });
 
-    $.get('rollo.php?down=1', function(data) {
+    $.get('api/rollo.php?down=1', function(data) {
         $.notifyBar({ cssClass: 'success', html: 'Rollo wird geschlossen!' });
     });
 }
@@ -32,7 +32,7 @@ function onShutClick(index) {
     $.notifyBar({ cssClass: 'warning', html: 'Vorgang läuft...', delay: 999999 });
 
     var rolloPos = rolloPositions[index];
-    $.get('rollo.php?position=' + rolloPos, function(data) {
+    $.get('api/rollo.php?position=' + rolloPos, function(data) {
         $.notifyBar({ cssClass: 'success', html: 'Rollo ist in Position!' });
     });
 }
