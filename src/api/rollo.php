@@ -1,5 +1,8 @@
 <?php
 
+header("Access-Control-Allow-Origin: *");
+header("Content-Type: application/json");
+
 // needed time for transition:
 // Full open <-> full closed: 41s
 $transitionTime = 42000000; // in microseconds
@@ -17,18 +20,18 @@ $stopPort = 7;
 
 if (isset($_GET["up"])) {
     rolloUp();
-    echo "<p>Rollo wird geöffnet!</p>";
     sendMail("Rollo wird geöffnet!", "");
+    die(json_encode(array("success" => true)));
 }
 else if (isset($_GET["down"])) {
     rolloDown();
-    echo "<p>Rollo wird geschlossen!</p>";
     sendMail("Rollo wird geschlossen!", "");
+    die(json_encode(array("success" => true)));
 }
 else if (isset($_GET["stop"])) {
     rolloStop();
-    echo "<p>Rollo gestoppt!</p>";
     sendMail("Rollo gestoppt!", "");
+    die(json_encode(array("success" => true)));
 }
 else if (isset($_GET["position"])) {
     $position = floatval($_GET["position"]);
@@ -47,8 +50,9 @@ else if (isset($_GET["position"])) {
     rolloStop();
 
     // send status email
-    echo "<p>Rollo zu Position gefahren!</p>";
     sendMail("Rollo zu Position gefahren!", "");
+
+    die(json_encode(array("success" => true)));
 }
 
 // control functions
