@@ -39,6 +39,7 @@
                     <ul>
                         <li><a id="tabOne" href="#one" data-ajax="false">Manuell</a></li>
                         <li><a href="#two" data-ajax="false">Positionen</a></li>
+                        <li><a href="#three" data-ajax="false">Wetter</a></li>
                     </ul>
                 </div>
 
@@ -52,6 +53,12 @@
                     <button id="btnShut1" class="shut-button" onclick="onShutClick(0)"><img src="images/state_1.png"></button>
                     <button id="btnShut2" class="shut-button" onclick="onShutClick(1)"><img src="images/state_2.png"></button>
                     <button id="btnShut3" class="shut-button" onclick="onShutClick(2)"><img src="images/state_3.png"></button>
+                </div>
+
+                <div id="three" class="ui-body-d ui-content" style="text-align: center;">
+                    <!-- WetterOnline Homepagewetter Beginn //-->
+                    <iframe style="width: 180px; height: 300px;" frameborder="0" scrolling="no" src="http://www.wetteronline.de/?pid=p_city_hpweather&amp;PLZ=28844&amp;FORMAT=long&amp;MENU=dropdown&amp;MAP=rainradar"></iframe>
+                    <!-- WetterOnline Homepagewetter Ende //-->
                 </div>
             </div>
         </div>
