@@ -6,24 +6,24 @@ import urllib2
 # weekdays and their open and shut times
 week = [
     #open:    shut:
-    ["07:00", "20:00"], # MON
-    ["07:00", "20:00"], # TUE
-    ["07:00", "20:00"], # WED
-    ["07:00", "20:00"], # THU
-    ["07:00", "20:00"], # FRI
-    ["09:00", "20:00"], # SAT
-    ["09:00", "20:00"]  # SUN
+    ["07:00", "20:30"], # MON
+    ["07:00", "20:30"], # TUE
+    ["07:00", "20:30"], # WED
+    ["07:00", "20:30"], # THU
+    ["07:00", "20:30"], # FRI
+    ["09:00", "20:30"], # SAT
+    ["09:00", "20:30"]  # SUN
 ]
 
 # rollo control functions
 def shutRollo():
-    urllib2.urlopen("http://localhost/rollo.php?down=#").read()
+    urllib2.urlopen("http://localhost/api/rollo.php?down=#").read()
 
 def openRollo():
-    urllib2.urlopen("http://localhost/rollo.php?up=#").read()
+    urllib2.urlopen("http://localhost/api/rollo.php?up=#").read()
 
 def stopRollo():
-    urllib2.urlopen("http://localhost/rollo.php?stop=#").read()
+    urllib2.urlopen("http://localhost/api/rollo.php?stop=#").read()
 
 opens = False
 shuts = False
