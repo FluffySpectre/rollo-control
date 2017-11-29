@@ -1,4 +1,5 @@
 var rolloPositions = [0.33, 0.5, 0.66];
+var currentDay = new Date().getDay();
 
 $(document).on("pagecreate", function() {
     $('#tabOne').click();
@@ -59,6 +60,10 @@ function onSaveTimingsClick() {
 }
 
 function getTimings() {
+    // highlight the current day
+    $('.day-row').removeClass('day-label-highlight');
+    $('#dayLabel' + currentDay).addClass('day-label-highlight');
+
     $.get('api/rollo.php?timings=1', function(data) {
         for (var i = 0; i < data.length; i++) {
             $('#dbOn' + i).val(data[i][0]);

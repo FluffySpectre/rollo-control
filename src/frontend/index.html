@@ -13,7 +13,7 @@
     <script src="lib/jquery-notify/jquery.notifyBar.js"></script>
     <script src="http://cdn.jtsage.com/jtsage-datebox/4.3.0/jtsage-datebox-4.3.0.jqm.min.js"></script>
     <script src="http://cdn.jtsage.com/jtsage-datebox/i18n/jtsage-datebox.lang.utf8.js"></script>
-    <script src="js/main.js?t=17"></script>
+    <script src="js/main.js?t=19"></script>
 
     <style>
         .shut-button {
@@ -29,6 +29,11 @@
             height: 22vh;
         }
         
+        .day-row {
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+        
         .day-label-one {
             margin-top: 37px;
             font-weight: bold;
@@ -37,6 +42,11 @@
         .day-label {
             margin-top: 17px;
             font-weight: bold;
+        }
+        
+        .day-label-highlight {
+            background-color: #38c;
+            color: white;
         }
     </style>
 </head>
@@ -51,8 +61,8 @@
             <div data-role="tabs" id="tabs">
                 <div data-role="navbar">
                     <ul id="navList">
-                        <li><a id="tabOne" href="#one" data-ajax="false">Fernbedienung</a></li>
-                        <li><a href="#two" data-ajax="false">Positionen</a></li>
+                        <li><a id="tabOne" href="#one" data-ajax="false">Fernb.</a></li>
+                        <li><a href="#two" data-ajax="false">Pos</a></li>
                         <li><a href="#four" data-ajax="false" onclick="getTimings()">Timer</a></li>
                         <li><a href="#three" data-ajax="false">Wetter</a></li>
                     </ul>
@@ -78,7 +88,7 @@
 
                 <div id="four" class="ui-body-d ui-content">
                     <div class="form-group">
-                        <div class="ui-grid-b">
+                        <div id="dayLabel1" class="ui-grid-b day-row">
                             <div class="ui-block-a day-label-one" style="width: 14%">MO</div>
                             <div class="ui-block-b" style="width: 43%">
                                 <label for="dbOn0">Öffnen um</label>
@@ -92,7 +102,7 @@
                     </div>
 
                     <div class="form-group">
-                        <div class="ui-grid-b">
+                        <div id="dayLabel2" class="ui-grid-b day-row">
                             <div class="ui-block-a day-label" style="width: 14%">DI</div>
                             <div class="ui-block-b" style="width: 43%">
                                 <!--<label for="dbOn1">Öffnen um</label>-->
@@ -106,7 +116,7 @@
                     </div>
 
                     <div class="form-group">
-                        <div class="ui-grid-b">
+                        <div id="dayLabel3" class="ui-grid-b day-row">
                             <div class="ui-block-a day-label" style="width: 14%">MI</div>
                             <div class="ui-block-b" style="width: 43%">
                                 <!--<label for="dbOn2">Öffnen um</label>-->
@@ -120,7 +130,7 @@
                     </div>
 
                     <div class="form-group">
-                        <div class="ui-grid-b">
+                        <div id="dayLabel4" class="ui-grid-b day-row">
                             <div class="ui-block-a day-label" style="width: 14%">DO</div>
                             <div class="ui-block-b" style="width: 43%">
                                 <!--<label for="dbOn3">Öffnen um</label>-->
@@ -134,7 +144,7 @@
                     </div>
 
                     <div class="form-group">
-                        <div class="ui-grid-b">
+                        <div id="dayLabel5" class="ui-grid-b day-row">
                             <div class="ui-block-a day-label" style="width: 14%">FR</div>
                             <div class="ui-block-b" style="width: 43%">
                                 <!--<label for="dbOn4">Öffnen um</label>-->
@@ -148,7 +158,7 @@
                     </div>
 
                     <div class="form-group">
-                        <div class="ui-grid-b">
+                        <div id="dayLabel6" class="ui-grid-b day-row">
                             <div class="ui-block-a day-label" style="width: 14%">SA</div>
                             <div class="ui-block-b" style="width: 43%">
                                 <!--<label for="dbOn5">Öffnen um</label>-->
@@ -162,7 +172,7 @@
                     </div>
 
                     <div class="form-group">
-                        <div class="ui-grid-b">
+                        <div id="dayLabel0" class="ui-grid-b day-row">
                             <div class="ui-block-a day-label" style="width: 14%">SO</div>
                             <div class="ui-block-b" style="width: 43%">
                                 <!--<label for="dbOn6">Öffnen um</label>-->
