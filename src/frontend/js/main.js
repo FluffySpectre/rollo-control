@@ -36,3 +36,33 @@ function onShutClick(index) {
         $.notifyBar({ cssClass: 'success', html: 'Rollo ist in Position!' });
     });
 }
+
+function onSaveTimingsClick() {
+    // iterate over all dateboxes in order to get the timings
+    var timings = [];
+    for (var i = 0; i < 7; i++) {
+        var on = $('#dbOn' + i).val();
+        var off = $('#dbOff' + i).val();
+        if (on != '' && off != '') {
+            var t = [on, off];
+            timings.push(t);
+        } else {
+            $.notifyBar({ cssClass: 'error', html: 'Bitte erst alle Zeiten eingeben!' });
+            return;
+        }
+    }
+
+    // send the timings json encoded to the server
+    $.post('api/rollo.php', { 'timings': JSON.stringify(timings) }).done(function(data) {
+        $.notifyBar({ cssClass: 'success', html: 'Timer aktualisiert!' });
+    });
+}
+
+function getTimings() {
+    $.get('api/rollo.php?timings=1', function(data) {
+        for (var i = 0; i < data.length; i++) {
+            $('#dbOn' + i).val(data[i][0]);
+            $('#dbOff' + i).val(data[i][1]);
+        }
+    }, 'json');
+}

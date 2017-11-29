@@ -59,6 +59,21 @@ else if (isset($_GET["position"])) {
     writeLogEntry("Rollo wurde zu Position gefahren: " . $position);
 
     die(json_encode(array("success" => true)));
+} 
+else if (isset($_GET["timings"])) {
+    echo file_get_contents("./timings.txt");
+}
+else if (isset($_POST["timings"])) {
+    $timingsJSON = $_POST["timings"];
+
+    // array value format: (0 => array("07:00", "15:00"))
+
+    // write the new timings to the settings file
+    $timingsFile = fopen("timings.txt", "w") or die("Unable to open file!");
+    fwrite($timingsFile, $timingsJSON);
+    fclose($timingsFile);
+
+    die(json_encode(array("success" => true)));
 }
 
 // control functions

@@ -1,6 +1,8 @@
 import time
 from datetime import datetime
 import urllib2
+import json
+import os.path
 
 # timer configuration
 # weekdays and their open and shut times
@@ -28,8 +30,15 @@ def stopRollo():
 opens = False
 shuts = False
 
+timerConfigPath = "/var/www/html/api/timings.txt"
+
 while 1:
     now = datetime.now()
+
+    # read timer config out of the config file
+    if (os.path.exists(timerConfigPath)):
+        timerConfigFile = open(timerConfigPath, "r")
+        week = json.loads(timerConfigFile.read())
 
     # get open/shut times of the current weekday
     weekday = now.weekday()
@@ -51,4 +60,4 @@ while 1:
         opens = False
         print "[" + now.strftime("%d.%m.%Y %H:%M:%S") + "] Rollo closed!"
     
-    time.sleep(1)
+    time.sleep(10)

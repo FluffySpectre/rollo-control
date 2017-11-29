@@ -6,10 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+    <link rel="stylesheet" href="http://cdn.jtsage.com/jtsage-datebox/4.3.0/jtsage-datebox-4.3.0.jqm.min.css" />
     <link rel="stylesheet" href="lib/jquery-notify/jquery.notifyBar.css" />
     <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
     <script src="lib/jquery-notify/jquery.notifyBar.js"></script>
+    <script src="http://cdn.jtsage.com/jtsage-datebox/4.3.0/jtsage-datebox-4.3.0.jqm.min.js"></script>
+    <script src="http://cdn.jtsage.com/jtsage-datebox/i18n/jtsage-datebox.lang.utf8.js"></script>
+    <script src="js/main.js?t=17"></script>
 
     <style>
         .shut-button {
@@ -24,21 +28,32 @@
             width: 22vh;
             height: 22vh;
         }
+        
+        .day-label-one {
+            margin-top: 37px;
+            font-weight: bold;
+        }
+        
+        .day-label {
+            margin-top: 17px;
+            font-weight: bold;
+        }
     </style>
 </head>
 
 <body>
     <div data-role="page">
         <div data-role="header" data-position="fixed">
-            <h1>Rollo Control 2.0</h1>
+            <h1>Rollo Control 2.1</h1>
         </div>
 
         <div role="main" class="ui-content" id="content">
             <div data-role="tabs" id="tabs">
                 <div data-role="navbar">
-                    <ul>
-                        <li><a id="tabOne" href="#one" data-ajax="false">Manuell</a></li>
+                    <ul id="navList">
+                        <li><a id="tabOne" href="#one" data-ajax="false">Fernbedienung</a></li>
                         <li><a href="#two" data-ajax="false">Positionen</a></li>
+                        <li><a href="#four" data-ajax="false" onclick="getTimings()">Timer</a></li>
                         <li><a href="#three" data-ajax="false">Wetter</a></li>
                     </ul>
                 </div>
@@ -60,6 +75,108 @@
                     <iframe style="width: 180px; height: 300px;" frameborder="0" scrolling="no" src="http://www.wetteronline.de/?pid=p_city_hpweather&amp;PLZ=28844&amp;FORMAT=long&amp;MENU=dropdown&amp;MAP=rainradar"></iframe>
                     <!-- WetterOnline Homepagewetter Ende //-->
                 </div>
+
+                <div id="four" class="ui-body-d ui-content">
+                    <div class="form-group">
+                        <div class="ui-grid-b">
+                            <div class="ui-block-a day-label-one" style="width: 14%">MO</div>
+                            <div class="ui-block-b" style="width: 43%">
+                                <label for="dbOn0">Öffnen um</label>
+                                <input name="dbOn0" class="form-control" id="dbOn0" type="text" data-role="datebox" data-options='{"mode":"timebox","useLang":"de","minuteStep":"15","overrideTimeOutput": "%H:%M"}' />
+                            </div>
+                            <div class="ui-block-c" style="width: 43%">
+                                <label for="dbOff0">Schließen um</label>
+                                <input name="dbOff0" class="form-control" id="dbOff0" type="text" data-role="datebox" data-options='{"mode":"timebox","useLang":"de","minuteStep":"15","overrideTimeOutput": "%H:%M"}' />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="ui-grid-b">
+                            <div class="ui-block-a day-label" style="width: 14%">DI</div>
+                            <div class="ui-block-b" style="width: 43%">
+                                <!--<label for="dbOn1">Öffnen um</label>-->
+                                <input name="dbOn1" class="form-control" id="dbOn1" type="text" data-role="datebox" data-options='{"mode":"timebox","useLang":"de","minuteStep":"15","overrideTimeOutput": "%H:%M"}' />
+                            </div>
+                            <div class="ui-block-c" style="width: 43%">
+                                <!--<label for="dbOff1">Schließen um</label>-->
+                                <input name="dbOff1" class="form-control" id="dbOff1" type="text" data-role="datebox" data-options='{"mode":"timebox","useLang":"de","minuteStep":"15","overrideTimeOutput": "%H:%M"}' />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="ui-grid-b">
+                            <div class="ui-block-a day-label" style="width: 14%">MI</div>
+                            <div class="ui-block-b" style="width: 43%">
+                                <!--<label for="dbOn2">Öffnen um</label>-->
+                                <input name="dbOn2" class="form-control" id="dbOn2" type="text" data-role="datebox" data-options='{"mode":"timebox","useLang":"de","minuteStep":"15","overrideTimeOutput": "%H:%M"}' />
+                            </div>
+                            <div class="ui-block-c" style="width: 43%">
+                                <!--<label for="dbOff2">Schließen um</label>-->
+                                <input name="dbOff2" class="form-control" id="dbOff2" type="text" data-role="datebox" data-options='{"mode":"timebox","useLang":"de","minuteStep":"15","overrideTimeOutput": "%H:%M"}' />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="ui-grid-b">
+                            <div class="ui-block-a day-label" style="width: 14%">DO</div>
+                            <div class="ui-block-b" style="width: 43%">
+                                <!--<label for="dbOn3">Öffnen um</label>-->
+                                <input name="dbOn3" class="form-control" id="dbOn3" type="text" data-role="datebox" data-options='{"mode":"timebox","useLang":"de","minuteStep":"15","overrideTimeOutput": "%H:%M"}' />
+                            </div>
+                            <div class="ui-block-c" style="width: 43%">
+                                <!--<label for="dbOff3">Schließen um</label>-->
+                                <input name="dbOff3" class="form-control" id="dbOff3" type="text" data-role="datebox" data-options='{"mode":"timebox","useLang":"de","minuteStep":"15","overrideTimeOutput": "%H:%M"}' />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="ui-grid-b">
+                            <div class="ui-block-a day-label" style="width: 14%">FR</div>
+                            <div class="ui-block-b" style="width: 43%">
+                                <!--<label for="dbOn4">Öffnen um</label>-->
+                                <input name="dbOn4" class="form-control" id="dbOn4" type="text" data-role="datebox" data-options='{"mode":"timebox","useLang":"de","minuteStep":"15","overrideTimeOutput": "%H:%M"}' />
+                            </div>
+                            <div class="ui-block-c" style="width: 43%">
+                                <!--<label for="dbOff4">Schließen um</label>-->
+                                <input name="dbOff4" class="form-control" id="dbOff4" type="text" data-role="datebox" data-options='{"mode":"timebox","useLang":"de","minuteStep":"15","overrideTimeOutput": "%H:%M"}' />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="ui-grid-b">
+                            <div class="ui-block-a day-label" style="width: 14%">SA</div>
+                            <div class="ui-block-b" style="width: 43%">
+                                <!--<label for="dbOn5">Öffnen um</label>-->
+                                <input name="dbOn5" class="form-control" id="dbOn5" type="text" data-role="datebox" data-options='{"mode":"timebox","useLang":"de","minuteStep":"15","overrideTimeOutput": "%H:%M"}' />
+                            </div>
+                            <div class="ui-block-c" style="width: 43%">
+                                <!--<label for="dbOff5">Schließen um</label>-->
+                                <input name="dbOff5" class="form-control" id="dbOff5" type="text" data-role="datebox" data-options='{"mode":"timebox","useLang":"de","minuteStep":"15","overrideTimeOutput": "%H:%M"}' />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="ui-grid-b">
+                            <div class="ui-block-a day-label" style="width: 14%">SO</div>
+                            <div class="ui-block-b" style="width: 43%">
+                                <!--<label for="dbOn6">Öffnen um</label>-->
+                                <input name="dbOn6" class="form-control" id="dbOn6" type="text" data-role="datebox" data-options='{"mode":"timebox","useLang":"de","minuteStep":"15","overrideTimeOutput": "%H:%M"}' />
+                            </div>
+                            <div class="ui-block-c" style="width: 43%">
+                                <!--<label for="dbOff6">Schließen um</label>-->
+                                <input name="dbOff6" class="form-control" id="dbOff6" type="text" data-role="datebox" data-options='{"mode":"timebox","useLang":"de","minuteStep":"15","overrideTimeOutput": "%H:%M"}' />
+                            </div>
+                        </div>
+                    </div>
+
+                    <button id="btnSaveTimings" onclick="onSaveTimingsClick()">Speichern</button>
+                </div>
             </div>
         </div>
 
@@ -67,8 +184,6 @@
             <h4>created by Björn Bosse (2016-17)</h4>
         </div>
     </div>
-
-    <script src="js/main.js"></script>
 </body>
 
 </html>
