@@ -32,6 +32,7 @@
         .day-row {
             padding-left: 5px;
             padding-right: 5px;
+            border-radius: 5px;
         }
         
         .day-label-one {
@@ -48,6 +49,14 @@
             background-color: #38c;
             color: white;
         }
+        
+        .small-p-right {
+            padding-right: 3px;
+        }
+        
+        .small-p-left {
+            padding-left: 3px;
+        }
     </style>
 </head>
 
@@ -62,7 +71,7 @@
                 <div data-role="navbar">
                     <ul id="navList">
                         <li><a id="tabOne" href="#one" data-ajax="false">Fernb.</a></li>
-                        <li><a href="#two" data-ajax="false">Pos</a></li>
+                        <li><a href="#two" data-ajax="false">Pos.</a></li>
                         <li><a href="#four" data-ajax="false" onclick="getTimings()">Timer</a></li>
                         <li><a href="#three" data-ajax="false">Wetter</a></li>
                     </ul>
@@ -90,11 +99,11 @@
                     <div class="form-group">
                         <div id="dayLabel1" class="ui-grid-b day-row">
                             <div class="ui-block-a day-label-one" style="width: 14%">MO</div>
-                            <div class="ui-block-b" style="width: 43%">
+                            <div class="ui-block-b small-p-right" style="width: 43%">
                                 <label for="dbOn0">Öffnen um</label>
                                 <input name="dbOn0" class="form-control" id="dbOn0" type="text" data-role="datebox" data-options='{"mode":"timebox","useLang":"de","minuteStep":"15","overrideTimeOutput": "%H:%M"}' />
                             </div>
-                            <div class="ui-block-c" style="width: 43%">
+                            <div class="ui-block-c small-p-left" style="width: 43%">
                                 <label for="dbOff0">Schließen um</label>
                                 <input name="dbOff0" class="form-control" id="dbOff0" type="text" data-role="datebox" data-options='{"mode":"timebox","useLang":"de","minuteStep":"15","overrideTimeOutput": "%H:%M"}' />
                             </div>
@@ -104,11 +113,11 @@
                     <div class="form-group">
                         <div id="dayLabel2" class="ui-grid-b day-row">
                             <div class="ui-block-a day-label" style="width: 14%">DI</div>
-                            <div class="ui-block-b" style="width: 43%">
+                            <div class="ui-block-b small-p-right" style="width: 43%">
                                 <!--<label for="dbOn1">Öffnen um</label>-->
                                 <input name="dbOn1" class="form-control" id="dbOn1" type="text" data-role="datebox" data-options='{"mode":"timebox","useLang":"de","minuteStep":"15","overrideTimeOutput": "%H:%M"}' />
                             </div>
-                            <div class="ui-block-c" style="width: 43%">
+                            <div class="ui-block-c small-p-left" style="width: 43%">
                                 <!--<label for="dbOff1">Schließen um</label>-->
                                 <input name="dbOff1" class="form-control" id="dbOff1" type="text" data-role="datebox" data-options='{"mode":"timebox","useLang":"de","minuteStep":"15","overrideTimeOutput": "%H:%M"}' />
                             </div>
@@ -118,11 +127,11 @@
                     <div class="form-group">
                         <div id="dayLabel3" class="ui-grid-b day-row">
                             <div class="ui-block-a day-label" style="width: 14%">MI</div>
-                            <div class="ui-block-b" style="width: 43%">
+                            <div class="ui-block-b small-p-right" style="width: 43%">
                                 <!--<label for="dbOn2">Öffnen um</label>-->
                                 <input name="dbOn2" class="form-control" id="dbOn2" type="text" data-role="datebox" data-options='{"mode":"timebox","useLang":"de","minuteStep":"15","overrideTimeOutput": "%H:%M"}' />
                             </div>
-                            <div class="ui-block-c" style="width: 43%">
+                            <div class="ui-block-c small-p-left" style="width: 43%">
                                 <!--<label for="dbOff2">Schließen um</label>-->
                                 <input name="dbOff2" class="form-control" id="dbOff2" type="text" data-role="datebox" data-options='{"mode":"timebox","useLang":"de","minuteStep":"15","overrideTimeOutput": "%H:%M"}' />
                             </div>
@@ -132,11 +141,11 @@
                     <div class="form-group">
                         <div id="dayLabel4" class="ui-grid-b day-row">
                             <div class="ui-block-a day-label" style="width: 14%">DO</div>
-                            <div class="ui-block-b" style="width: 43%">
+                            <div class="ui-block-b small-p-right" style="width: 43%">
                                 <!--<label for="dbOn3">Öffnen um</label>-->
                                 <input name="dbOn3" class="form-control" id="dbOn3" type="text" data-role="datebox" data-options='{"mode":"timebox","useLang":"de","minuteStep":"15","overrideTimeOutput": "%H:%M"}' />
                             </div>
-                            <div class="ui-block-c" style="width: 43%">
+                            <div class="ui-block-c small-p-left" style="width: 43%">
                                 <!--<label for="dbOff3">Schließen um</label>-->
                                 <input name="dbOff3" class="form-control" id="dbOff3" type="text" data-role="datebox" data-options='{"mode":"timebox","useLang":"de","minuteStep":"15","overrideTimeOutput": "%H:%M"}' />
                             </div>
@@ -146,11 +155,11 @@
                     <div class="form-group">
                         <div id="dayLabel5" class="ui-grid-b day-row">
                             <div class="ui-block-a day-label" style="width: 14%">FR</div>
-                            <div class="ui-block-b" style="width: 43%">
+                            <div class="ui-block-b small-p-right" style="width: 43%">
                                 <!--<label for="dbOn4">Öffnen um</label>-->
                                 <input name="dbOn4" class="form-control" id="dbOn4" type="text" data-role="datebox" data-options='{"mode":"timebox","useLang":"de","minuteStep":"15","overrideTimeOutput": "%H:%M"}' />
                             </div>
-                            <div class="ui-block-c" style="width: 43%">
+                            <div class="ui-block-c small-p-left" style="width: 43%">
                                 <!--<label for="dbOff4">Schließen um</label>-->
                                 <input name="dbOff4" class="form-control" id="dbOff4" type="text" data-role="datebox" data-options='{"mode":"timebox","useLang":"de","minuteStep":"15","overrideTimeOutput": "%H:%M"}' />
                             </div>
@@ -160,11 +169,11 @@
                     <div class="form-group">
                         <div id="dayLabel6" class="ui-grid-b day-row">
                             <div class="ui-block-a day-label" style="width: 14%">SA</div>
-                            <div class="ui-block-b" style="width: 43%">
+                            <div class="ui-block-b small-p-right" style="width: 43%">
                                 <!--<label for="dbOn5">Öffnen um</label>-->
                                 <input name="dbOn5" class="form-control" id="dbOn5" type="text" data-role="datebox" data-options='{"mode":"timebox","useLang":"de","minuteStep":"15","overrideTimeOutput": "%H:%M"}' />
                             </div>
-                            <div class="ui-block-c" style="width: 43%">
+                            <div class="ui-block-c small-p-left" style="width: 43%">
                                 <!--<label for="dbOff5">Schließen um</label>-->
                                 <input name="dbOff5" class="form-control" id="dbOff5" type="text" data-role="datebox" data-options='{"mode":"timebox","useLang":"de","minuteStep":"15","overrideTimeOutput": "%H:%M"}' />
                             </div>
@@ -174,11 +183,11 @@
                     <div class="form-group">
                         <div id="dayLabel0" class="ui-grid-b day-row">
                             <div class="ui-block-a day-label" style="width: 14%">SO</div>
-                            <div class="ui-block-b" style="width: 43%">
+                            <div class="ui-block-b small-p-right" style="width: 43%">
                                 <!--<label for="dbOn6">Öffnen um</label>-->
                                 <input name="dbOn6" class="form-control" id="dbOn6" type="text" data-role="datebox" data-options='{"mode":"timebox","useLang":"de","minuteStep":"15","overrideTimeOutput": "%H:%M"}' />
                             </div>
-                            <div class="ui-block-c" style="width: 43%">
+                            <div class="ui-block-c small-p-left" style="width: 43%">
                                 <!--<label for="dbOff6">Schließen um</label>-->
                                 <input name="dbOff6" class="form-control" id="dbOff6" type="text" data-role="datebox" data-options='{"mode":"timebox","useLang":"de","minuteStep":"15","overrideTimeOutput": "%H:%M"}' />
                             </div>
