@@ -13,9 +13,19 @@
     <script src="lib/jquery-notify/jquery.notifyBar.js"></script>
     <script src="http://cdn.jtsage.com/jtsage-datebox/4.3.0/jtsage-datebox-4.3.0.jqm.min.js"></script>
     <script src="http://cdn.jtsage.com/jtsage-datebox/i18n/jtsage-datebox.lang.utf8.js"></script>
-    <script src="js/main.js?t=19"></script>
+    <script src="js/main.js?t=24"></script>
 
     <style>
+        #appTitle {
+            padding-bottom: 0;
+        }
+        
+        #appUndertitle {
+            font-size: 12px;
+            padding-top: 0;
+            color: #777;
+        }
+        
         .shut-button {
             padding: 0;
             height: 23vh;
@@ -27,6 +37,13 @@
         .shut-button img {
             width: 22vh;
             height: 22vh;
+        }
+        
+        #sunriseSunsetContainer {
+            margin-bottom: 15px;
+            border-bottom-style: solid;
+            border-color: gray;
+            border-width: 1px;
         }
         
         .day-row {
@@ -68,7 +85,8 @@
 <body>
     <div data-role="page">
         <div data-role="header" data-position="fixed">
-            <h1>Rollo Control 2.1</h1>
+            <h1 id="appTitle">Rollo Control 2.1</h1>
+            <h4 id="appUndertitle">&#169; Björn Bosse (2016-17)</h4>
         </div>
 
         <div role="main" class="ui-content" id="content">
@@ -77,7 +95,7 @@
                     <ul id="navList">
                         <li><a id="tabOne" href="#one" data-ajax="false">Fernb.</a></li>
                         <li><a href="#two" data-ajax="false">Pos.</a></li>
-                        <li><a href="#four" data-ajax="false" onclick="getTimings()">Timer</a></li>
+                        <li><a href="#four" data-ajax="false" onclick="onTimerTabClick()">Timer</a></li>
                         <li><a href="#three" data-ajax="false">Wetter</a></li>
                     </ul>
                 </div>
@@ -101,6 +119,22 @@
                 </div>
 
                 <div id="four" class="ui-body-d ui-content">
+                    <div id="sunriseSunsetContainer" class="small-p-left">
+                        <div class="ui-grid-b">
+                            <div class="ui-block-a" style="width: 57%">Sonnenaufgang um</div>
+                            <div id="sunriseLabel" class="ui-block-b" style="width: 30%">
+                                Aktualisiere...
+                            </div>
+                        </div>
+
+                        <div class="ui-grid-b" style="margin-bottom: 15px;">
+                            <div class="ui-block-a" style="width: 57%">Sonnenuntergang um</div>
+                            <div id="sunsetLabel" class="ui-block-b" style="width: 30%">
+                                Aktualisiere...
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <div id="dayLabel1" class="ui-grid-b day-row">
                             <div class="ui-block-a day-label-one" style="width: 14%">MO</div>
@@ -202,10 +236,6 @@
                     <button id="btnSaveTimings" onclick="onSaveTimingsClick()">Speichern</button>
                 </div>
             </div>
-        </div>
-
-        <div data-role="footer" data-position="fixed">
-            <h4>&#169; Björn Bosse (2016-17)</h4>
         </div>
     </div>
 </body>

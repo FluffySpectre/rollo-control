@@ -59,6 +59,11 @@ function onSaveTimingsClick() {
     });
 }
 
+function onTimerTabClick() {
+    getTimings();
+    getSunriseSunsetTimes();
+}
+
 function getTimings() {
     // highlight the current day
     $('.day-row').removeClass('day-label-highlight');
@@ -70,4 +75,29 @@ function getTimings() {
             $('#dbOff' + i).val(data[i][1]);
         }
     }, 'json');
+}
+
+function getSunriseSunsetTimes() {
+    // gps location of our house: 52.988206, 8.852984
+    $.get('https://api.sunrise-sunset.org/json?lat=52.988206&lng=8.852984&formatted=0', function(data) {
+        if (data && data.status === 'OK') {
+            var sr = new Date(data.results.sunrise);
+            var ss = new Date(data.results.sunset);
+            $("#sunriseLabel").html('<b>' + getFormattedTimeString(sr) + '</b> Uhr');
+            $("#sunsetLabel").html('<b>' + getFormattedTimeString(ss) + '</b> Uhr');
+        } else {
+            $("#sunriseLabel").html('<b>---</b>');
+            $("#sunsetLabel").html('<b>---</b>');
+        }
+    });
+}
+
+function getFormattedTimeString(d) {
+    var h = d.getHours();
+    if (h < 10)
+        h = '0' + h;
+    var m = d.getMinutes();
+    if (m < 10)
+        m = '0' + m;
+    return h + ':' + m;
 }
