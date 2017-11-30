@@ -1,3 +1,10 @@
+#!/usr/bin/python
+
+# setup:
+# add an new cronjob in crontab: 
+# crontab -e
+# * * * * * python /home/pi/rollo/rollo.py
+
 import time
 from datetime import datetime
 import urllib2
@@ -32,32 +39,34 @@ shuts = False
 
 timerConfigPath = "/var/www/html/api/timings.txt"
 
-while 1:
-    now = datetime.now()
+now = datetime.now()
 
-    # read timer config out of the config file
-    if (os.path.exists(timerConfigPath)):
-        timerConfigFile = open(timerConfigPath, "r")
-        week = json.loads(timerConfigFile.read())
+# read timer config out of the config file
+if (os.path.exists(timerConfigPath)):
+    timerConfigFile = open(timerConfigPath, "r")
+    week = json.loads(timerConfigFile.read())
 
-    # get open/shut times of the current weekday
-    weekday = now.weekday()
-    openShut = week[weekday]
-    upTime = datetime.strptime(openShut[0], "%H:%M")
-    shutTime = datetime.strptime(openShut[1], "%H:%M")
+# get open/shut times of the current weekday
+weekday = now.weekday()
+openShut = week[weekday]
+upTime = datetime.strptime(openShut[0], "%H:%M")
+shutTime = datetime.strptime(openShut[1], "%H:%M")
 
-    # if the rollo is not already open, check if we reached the open time
-    if (opens == False and now.hour == upTime.hour and now.minute == upTime.minute):
-        openRollo()
-        opens = True
-        shuts = False
-        print "[" + now.strftime("%d.%m.%Y %H:%M:%S") + "] Rollo opened!"
-    
-    # if the rollo is not already shut, check if we reached the shut time
-    if (shuts == False and now.hour == shutTime.hour and now.minute == shutTime.minute):
-        shutRollo()
-        shuts = True
-        opens = False
-        print "[" + now.strftime("%d.%m.%Y %H:%M:%S") + "] Rollo closed!"
-    
-    time.sleep(10)
+# if the rollo is not already open, check if we reached the open time
+if (opens == False and now.hour == upTime.hour and now.minute == upTime.minute):
+    openRollo()
+    opens = True
+    shuts = False
+    print "[" + now.strftime("%d.%m.%Y %H:%M:%S") + "] Rollo opened!"
+
+# if the rollo is not already shut, check if we reached the shut time
+if (shuts == False and now.hour == shutTime.hour and now.minute == shutTime.minute):
+    shutRollo()
+    shuts = True
+    opens = False
+    print "[" + now.strftime("%d.%m.%Y %H:%M:%S") + "] Rollo closed!"
+
+# write current call time to heartbeat file
+heartbeatFile = open("./heartbeat.txt", "w")
+heartbeatFile.write(now.strftime("%d.%m.%Y %H:%M:%S"))
+heartbeatFile.close()
