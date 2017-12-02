@@ -72,8 +72,30 @@ else if (isset($_POST["timings"])) {
     $timingsFile = fopen("timings.txt", "w") or die("Unable to open file!");
     fwrite($timingsFile, $timingsJSON);
     fclose($timingsFile);
-
+    
     die(json_encode(array("success" => true)));
+}
+else if (isset($_POST["enable_timer"])) {
+    $enable = $_POST["enabled"];
+    writeTimerEnable($enable);
+    die(json_encode(array("success" => true, "enabled" => $enable)));
+}
+else if (isset($_GET["enable_timer"])) {
+    $enabled = readTimerEnable();
+    die(json_encode(array("success" => true, "enabled" => $enabled)));
+}
+else if (isset($_GET["log"])) {
+    // get the log for a specific date ?
+    $logDate = date("Y-m-d");
+    if (isset($_GET["date"])) {
+        $logDate = $_GET["date"];
+    }
+ 
+    // read in the log file from today
+    $logContents = getLogContents($logDate);
+
+    // return log content as json
+    die(json_encode(array("success" => true, "date" => $logDate, "log" => $logContents)));
 }
 
 // control functions
@@ -112,6 +134,38 @@ function writeLogEntry($msg) {
     $file = fopen($todayLogFile, "a");
     if ($file) {
         fwrite($file, "[" . date("H:i:s") . "] " . $msg . "\n");
+        fclose($file);
+    }
+}
+
+function getLogContents($day) {
+    $logFile = "logs/log_" . $day . ".txt";
+    if (file_exists($logFile)) {
+        $handle = fopen($logFile, "r");
+        if ($handle) {
+            $logEntries = array();
+            while (($line = fgets($handle)) !== false) {
+                $logEntries[] = $line;
+            }
+            fclose($handle);
+            return $logEntries;
+        }
+    }
+    return array();
+}
+
+function readTimerEnable() {
+    if (file_exists("timer_config.txt")) {
+        $timerEnabled = file_get_contents("timer_config.txt");
+        return intval($timerEnabled);
+    }
+    return 0;
+}
+
+function writeTimerEnable($enable) {
+    $file = fopen("timer_config.txt", "w");
+    if ($file) {
+        fwrite($file, $enable);
         fclose($file);
     }
 }

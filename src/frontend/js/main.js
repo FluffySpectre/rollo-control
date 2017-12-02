@@ -60,8 +60,23 @@ function onSaveTimingsClick() {
 }
 
 function onTimerTabClick() {
+    getTimerEnabled();
     getTimings();
     getSunriseSunsetTimes();
+}
+
+function onLogTabClick() {
+    getLogs();
+}
+
+function onTimerSwitchChange(sw) {
+    if (sw.value === 'on') {
+        $('#timerContainer').fadeTo('fast', 1.0);
+        setTimerEnabled(1);
+    } else {
+        $('#timerContainer').fadeTo('fast', 0.33);
+        setTimerEnabled(0);
+    }
 }
 
 function getTimings() {
@@ -100,4 +115,43 @@ function getFormattedTimeString(d) {
     if (m < 10)
         m = '0' + m;
     return h + ':' + m;
+}
+
+function getLogs() {
+    $.get('api/rollo.php?log=1', function(data) {
+        if (data && data.success) {
+            var logItems = '';
+            for (var i = 0; i < data.log.length; i++) {
+                logItems += '<li>' + data.log[i] + '</li>';
+            }
+            $('#logList').html(logItems);
+
+            $('#logList').trigger('create');
+            $('#logList').listview('refresh');
+        }
+    }, 'json');
+}
+
+function getTimerEnabled() {
+    $.get('api/rollo.php?enable_timer=1', function(data) {
+        if (data && data.success) {
+            $('#timerSwitch').val((data.enabled == 1 ? 'on' : 'off'));
+            $('#timerSwitch').slider('refresh');
+
+            if (data.enabled == 1) {
+                $('#timerContainer').fadeTo('fast', 1.0);
+            } else {
+                $('#timerContainer').fadeTo('fast', 0.33);
+            }
+        }
+    }, 'json');
+}
+
+function setTimerEnabled(enabled) {
+    $.post('api/rollo.php', { 'enable_timer': 1, 'enabled': enabled }).done(function(data) {
+        if (data && data.success) {
+            var notText = (data.enabled == 1 ? 'Timer <b>aktiviert</b>!' : 'Timer <b>deaktiviert</b>!');
+            $.notifyBar({ cssClass: 'success', html: notText });
+        }
+    });
 }

@@ -18,6 +18,15 @@ def shutRollo():
 def openRollo():
     urllib2.urlopen("http://localhost/api/rollo.php?up=#").read()
 
+# check if the timer is enabled
+timerEnablePath = "/var/www/html/api/timer_config.txt";
+if (os.path.exists(timerEnablePath)):
+    timerEnableFile = open(timerEnablePath, "r")
+    if (timerEnableFile.read() == "0"):
+        sys.exit()
+else:
+    sys.exit()
+
 # read timer config out of the config file
 timerConfigPath = "/var/www/html/api/timings.txt"
 if (os.path.exists(timerConfigPath)):
@@ -32,6 +41,10 @@ weekday = now.weekday()
 openShut = week[weekday]
 upTime = datetime.strptime(openShut[0], "%H:%M")
 shutTime = datetime.strptime(openShut[1], "%H:%M")
+
+# check if the open and the shut time equal 00:00, if so, the timer for today is disabled
+if (openShut[0] == "00:00" and openShut[1] == "00:00"):
+    sys.exit()
 
 # check if we reached the open time
 if (now.hour == upTime.hour and now.minute == upTime.minute):
