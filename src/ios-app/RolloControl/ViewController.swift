@@ -15,7 +15,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        let url = URL(string: "http://192.168.0.23/index.html");
+        let url = URL(string: "http://test.benntec-quiz-app.de/rollo/");
         let requestObj = URLRequest(url: url!,
                                     cachePolicy: NSURLRequest.CachePolicy.reloadIgnoringLocalAndRemoteCacheData,
                                     timeoutInterval: 10.0);

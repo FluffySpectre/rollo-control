@@ -8,7 +8,7 @@ $(document).on("pagecreate", function() {
 function onUpClick() {
     $.notifyBar({ cssClass: 'warning', html: 'Vorgang läuft...', delay: 999999 });
 
-    $.get('api/rollo.php?up=1', function(data) {
+    $.post('api/index.php', { 'cmd': 'up' }).done(function(data) {
         $.notifyBar({ cssClass: 'success', html: 'Rollo wird geöffnet!' });
     });
 }
@@ -16,7 +16,7 @@ function onUpClick() {
 function onStopClick() {
     $.notifyBar({ cssClass: 'warning', html: 'Vorgang läuft...', delay: 999999 });
 
-    $.get('api/rollo.php?stop=1', function(data) {
+    $.post('api/index.php', { 'cmd': 'stop' }).done(function(data) {
         $.notifyBar({ cssClass: 'success', html: 'Rollo wurde gestoppt!' });
     });
 }
@@ -24,7 +24,7 @@ function onStopClick() {
 function onDownClick() {
     $.notifyBar({ cssClass: 'warning', html: 'Vorgang läuft...', delay: 999999 });
 
-    $.get('api/rollo.php?down=1', function(data) {
+    $.post('api/index.php', { 'cmd': 'down' }).done(function(data) {
         $.notifyBar({ cssClass: 'success', html: 'Rollo wird geschlossen!' });
     });
 }
@@ -33,8 +33,8 @@ function onShutClick(index) {
     $.notifyBar({ cssClass: 'warning', html: 'Vorgang läuft...', delay: 999999 });
 
     var rolloPos = rolloPositions[index];
-    $.get('api/rollo.php?position=' + rolloPos, function(data) {
-        $.notifyBar({ cssClass: 'success', html: 'Rollo ist in Position!' });
+    $.post('api/index.php', { 'cmd': 'position', 'cmd_param': rolloPos }).done(function(data) {
+        $.notifyBar({ cssClass: 'success', html: 'Position wird angefahren!' });
     });
 }
 
@@ -54,7 +54,7 @@ function onSaveTimingsClick() {
     }
 
     // send the timings json encoded to the server
-    $.post('api/rollo.php', { 'timings': JSON.stringify(timings) }).done(function(data) {
+    $.post('api/index.php', { 'timings': JSON.stringify(timings) }).done(function(data) {
         $.notifyBar({ cssClass: 'success', html: 'Timer aktualisiert!' });
     });
 }
@@ -84,10 +84,12 @@ function getTimings() {
     $('.day-row').removeClass('day-label-highlight');
     $('#dayLabel' + currentDay).addClass('day-label-highlight');
 
-    $.get('api/rollo.php?timings=1', function(data) {
-        for (var i = 0; i < data.length; i++) {
-            $('#dbOn' + i).val(data[i][0]);
-            $('#dbOff' + i).val(data[i][1]);
+    $.get('api/index.php?timings=1', function(data) {
+        if (data && data.success) {
+            for (var i = 0; i < data.timings.length; i++) {
+                $('#dbOn' + i).val(data.timings[i][0]);
+                $('#dbOff' + i).val(data.timings[i][1]);
+            }
         }
     }, 'json');
 }
@@ -118,7 +120,7 @@ function getFormattedTimeString(d) {
 }
 
 function getLogs() {
-    $.get('api/rollo.php?log=1', function(data) {
+    $.get('api/index.php?log=1', function(data) {
         if (data && data.success) {
             var logItems = '';
             for (var i = 0; i < data.log.length; i++) {
@@ -133,7 +135,7 @@ function getLogs() {
 }
 
 function getTimerEnabled() {
-    $.get('api/rollo.php?enable_timer=1', function(data) {
+    $.get('api/index.php?enable_timer=1', function(data) {
         if (data && data.success) {
             $('#timerSwitch').val((data.enabled == 1 ? 'on' : 'off'));
             $('#timerSwitch').slider('refresh');
@@ -148,7 +150,7 @@ function getTimerEnabled() {
 }
 
 function setTimerEnabled(enabled) {
-    $.post('api/rollo.php', { 'enable_timer': 1, 'enabled': enabled }).done(function(data) {
+    $.post('api/index.php', { 'enable_timer': 1, 'enabled': enabled }).done(function(data) {
         if (data && data.success) {
             var notText = (data.enabled == 1 ? 'Timer <b>aktiviert</b>!' : 'Timer <b>deaktiviert</b>!');
             $.notifyBar({ cssClass: 'success', html: notText });
