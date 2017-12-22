@@ -16,7 +16,9 @@
 .jquery-notify-bar {
     width: 100%;
     position: absolute;
-    top: 0;
+    /* CHANGED BY ME FROM '0' */
+    top: 58px;
+    /* ---------------------- */
     left: 0;
     z-index: 32768;
     background-color: #efefef;
